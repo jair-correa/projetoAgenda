@@ -1,15 +1,16 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const bcryptjs = require("bcryptjs");
 
 const LoginSchema = new mongoose.Schema({
   email: {
     type: String,
-    required: true
+    required: true,
   },
   password: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const LoginModel = mongoose.model("Login", LoginSchema);
@@ -26,6 +27,8 @@ class Login {
     this.valida();
     if (this.errors.length > 0) return;
     try {
+      const salt = bcryptjs.genSalt();
+      this.body.password = bcryptjs.hashSync(this.body.password,salt);
       this.user = await LoginModel.create(this.body);
     } catch (e) {
       console.log(e);
@@ -54,7 +57,7 @@ class Login {
     }
     this.body = {
       email: this.body.email,
-      password: this.body.password
+      password: this.body.password,
     };
   }
 }
