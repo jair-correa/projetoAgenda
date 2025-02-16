@@ -1,22 +1,20 @@
-
-<style>
-  #borderR{
-    border-radius: 2rem;
-  }
-</style>
-
-<nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark" borderR>
-    <a class="navbar-brand" href="#">Agenda</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-       
-        <li class="nav-item" >
-          <a class="nav-link" href="#">Link</a>
+<nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
+  <a class="navbar-brand" href="/">Agenda</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-bs-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <% if (!user) { %>
+        <li class="nav-item">
+          <a class="nav-link" href="/login/index">Login</a>
         </li>
-        
-      </ul>
-    </div>
+      <% } else { %>
+        <li class="nav-item">
+          <a class="nav-link" href="/#">Logout</a>
+        </li>
+      <% } %>
+    </ul>
+  </div>
 </nav>

@@ -1,20 +1,25 @@
 exports.middlewareGlobal = (req, res, next) => {
   res.locals.errors = req.flash("errors");
   res.locals.success = req.flash("success");
+  res.locals.user = req.session.user || null;
+  res.locals.user = req.session.user;
   next();
 };
-exports.outroMiddleware = (req, res, next) => {
+// src/middlewares/middleware.js
+module.exports.middlewareGlobal = (req, res, next) => {
+  res.locals.user = req.session.user || null;
   next();
 };
 
-exports.checkCSRFError = (err, req, res, next) => {
-  if (err) {
-    return res.render("404");
+// Outros middlewares
+module.exports.checkCSRFError = (err, req, res, next) => {
+  if (err && err.code === 'EBADCSRFTOKEN') {
+    return res.render('404');
   }
   next();
 };
 
-exports.csrfMiddleware = (req, res, next) => {
+module.exports.csrfMiddleware = (req, res, next) => {
   res.locals.csrfToken = req.csrfToken();
   next();
 };

@@ -1,4 +1,6 @@
-<%-include('includes/head'); %> <%-include('includes/nav');%>
+<%- include('includes/head'); %>
+<%- include('includes/nav'); %>
+
 <div class="container">
   <div class="row">
     <div class="col-lg-2"></div>
@@ -11,38 +13,35 @@
       <div class="row">
         <div class="col-lg">
           <h4>Faça seu cadastro</h4>
-          <p>Preencha os formularios para cadastro</p>
+          <p>Preencha os formulários para cadastro</p>
           <form action="/login/register" method="POST">
-            <input type="hidden" name="_csrf" value=<%= csrfToken %>>
-            <type></type>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <div class="form-group">
-              <label>Email address</label>
-              <input type="email" class="form-control" name="email" />
-            </div>
+              <label for="email-register">Endereço de Email</label>
+              <input type="email" class="form-control" id="email-register" name="email" aria-describedby="emailHelp" required>
+               </div>
             <div class="form-group">
-              <label>Your password</label>
-              <input type="password" class="form-control" name="password" />
+              <label for="password-register">Sua senha</label>
+              <input type="password" class="form-control" id="password-register" name="password" required>
             </div>
-            <button type="submit" class="btn btn-primary">
-              Criate Account
-            </button>
+            <button type="submit" class="btn btn-primary">Criar Conta</button>
           </form>
         </div>
 
         <div class="col-lg">
           <h4>Acessar</h4>
-          <p>Faca seu login abaixo</p>
+          <p>Faça seu login abaixo</p>
           <form action="/login/login" method="POST">
-            <input type="hidden" name="_csrf" value=<%= csrfToken %>>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <div class="form-group">
-              <label>Email address</label>
-              <input type="email" class="form-control" name="email" />
+              <label for="email-login">Endereço de Email</label>
+              <input type="email" class="form-control" id="email-login" name="email" aria-describedby="emailHelpLogin" required>
             </div>
             <div class="form-group">
-              <label>Your password</label>
-              <input type="password" class="form-control" name="password" />
+              <label for="password-login">Sua senha</label>
+              <input type="password" class="form-control" id="password-login" name="password" required>
             </div>
-            <button type="submit" class="btn btn-primary">Enter Account</button>
+            <button type="submit" class="btn btn-primary">Entrar na Conta</button>
           </form>
         </div>
       </div>
@@ -50,4 +49,5 @@
     <div class="col-lg-2"></div>
   </div>
 </div>
-<%-include('includes/footer');%>
+
+<%- include('includes/footer'); %>
