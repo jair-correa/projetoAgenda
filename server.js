@@ -8,12 +8,16 @@ const helmet = require("helmet");
 const csrf = require("csurf");
 const session = require("express-session");
 const MongoStore = require("connect-mongo"); // Corrigido
-const { middlewareGlobal, checkCSRFError, csrfMiddleware } = require("./src/middlewares/middleware");
+const {
+  middlewareGlobal,
+  checkCSRFError,
+  csrfMiddleware
+} = require("./src/middlewares/middleware");
 const routes = require("./routes");
 
 // 🔹 Conectar ao MongoDB
 mongoose
-  .connect(process.env.CONNECTIONSTRING, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.CONNECTIONSTRING)
   .then(() => {
     app.emit("OK"); // Emitir sinal para iniciar o servidor
   })
@@ -30,12 +34,12 @@ app.use(
     saveUninitialized: false,
     store: MongoStore.create({
       mongoUrl: process.env.CONNECTIONSTRING, // Passa a URL de conexão corretamente
-      collectionName: "sessions", // Nome da coleção no MongoDB
+      collectionName: "sessions" // Nome da coleção no MongoDB
     }),
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 dias
-      httpOnly: true,
-    },
+      httpOnly: true
+    }
   })
 );
 
