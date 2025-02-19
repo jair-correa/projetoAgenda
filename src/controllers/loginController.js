@@ -1,7 +1,8 @@
 const Login = require("../models/LoginModel");
 
 exports.index = (req, res) => {
-  res.render("login");
+  if (req.session.user) return res.render("login-logado");
+  return res.render("login");
 };
 
 exports.register = async function (req, res) {
@@ -23,7 +24,10 @@ exports.register = async function (req, res) {
     });
   } catch (e) {
     console.error("Error during user registration:", e);
-    req.flash("errors", "An unexpected error occurred. Please try again later.");
+    req.flash(
+      "errors",
+      "An unexpected error occurred. Please try again later."
+    );
     req.session.save(() => {
       return res.redirect(req.get("Referrer") || "/"); // Redireciona corretamente
     });
@@ -38,7 +42,7 @@ exports.login = async function (req, res) {
     if (login.errors.length > 0) {
       req.flash("errors", login.errors);
       req.session.save(() => {
-        return res.redirect(req.get("Referrer") || "/"); // Redireciona corretamente
+        return res.redirect(req.get("Referrer") || "/login"); // Redireciona corretamente
       });
       return;
     }
@@ -50,9 +54,17 @@ exports.login = async function (req, res) {
     });
   } catch (e) {
     console.error("Error during user login:", e);
-    req.flash("errors", "An unexpected error occurred. Please try again later.");
+    req.flash(
+      "errors",
+      "An unexpected error occurred. Please try again later."
+    );
     req.session.save(() => {
       return res.redirect(req.get("Referrer") || "/"); // Redireciona corretamente
     });
   }
+};
+
+exports.logout = (req, res) => {
+  req.session.destroy();
+  return res.redirect(req.get("Referrer") || "/login"); // Redireciona corretamente
 };

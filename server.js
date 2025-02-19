@@ -8,7 +8,11 @@ const helmet = require("helmet");
 const csrf = require("csurf");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
-const { middlewareGlobal, checkCSRFError, csrfMiddleware } = require("./src/middlewares/middleware");
+const {
+  middlewareGlobal,
+  checkCSRFError,
+  csrfMiddleware,
+} = require("./src/middlewares/middleware");
 const routes = require("./routes");
 
 // Conectar ao MongoDB
@@ -17,7 +21,7 @@ mongoose
   .then(() => {
     app.emit("OK"); // Emitir sinal para iniciar o servidor
   })
-  .catch(e => console.log("Erro ao conectar ao MongoDB:", e));
+  .catch((e) => console.log("Erro ao conectar ao MongoDB:", e));
 
 // Middlewares de segurança
 app.use(helmet());
@@ -30,27 +34,26 @@ app.use(
     saveUninitialized: false,
     store: MongoStore.create({
       mongoUrl: process.env.CONNECTIONSTRING,
-      collectionName: "sessions"
+      collectionName: "sessions",
     }),
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 dias
-      httpOnly: true
-    }
+      maxAge: 1000 * 60 * 60 * 24, // 7 dias
+      httpOnly: true,
+    },
   })
 );
-
-// Middlewares do Express
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(express.static(path.resolve(__dirname, "public")));
 
 // Middleware de mensagens flash
 app.use(flash());
 app.use((req, res, next) => {
-  res.locals.success = req.flash('success');
-  res.locals.errors = req.flash('errors');
+  res.locals.success = req.flash("success");
+  res.locals.errors = req.flash("errors");
   next();
 });
+// Middlewares do Express
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static(path.resolve(__dirname, "public")));
 
 // Configuração do motor de visualização
 app.set("views", path.resolve(__dirname, "src", "views"));
